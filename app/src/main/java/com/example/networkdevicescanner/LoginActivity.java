@@ -95,7 +95,7 @@ public  class LoginActivity extends AppCompatActivity implements GoogleApiClient
 
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("GloginKey", TokenID);
+            editor.putString("GloginKey", "1234");
             editor.apply();
             //Read from shared preferences
 

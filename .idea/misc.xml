@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProject/NetworkDeviceScanner/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/AndroidProject/NetworkDeviceScanner/app/src/main/res/layout/activity_second.xml" value="0.1" />
+        <entry key="..\:/AndroidProject/NetworkDeviceScanner/app/src/main/res/layout/exam_card.xml" value="0.1" />
         <entry key="..\:/d_dev..staff/N/26.dev.SPD/Projects/NetworkDeviceScanner/NetworkDeviceScanner/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
         <entry key="..\:/d_dev..staff/N/26.dev.SPD/Projects/NetworkDeviceScanner/NetworkDeviceScanner/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
       </map>
