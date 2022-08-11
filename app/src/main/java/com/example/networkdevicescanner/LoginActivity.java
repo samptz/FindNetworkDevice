@@ -3,6 +3,7 @@ package com.example.networkdevicescanner;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,17 +15,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+
 public  class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener  {
     SignInButton signInButton;
     private GoogleApiClient googleApiClient;
     TextView textView;
     private static final int RC_SIGN_IN = 1;
+    private GoogleApiClient mGoogleApiClient;
+    private Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +45,7 @@ public  class LoginActivity extends AppCompatActivity implements GoogleApiClient
                 .enableAutoManage(this,this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .build();
+
         signInButton=(SignInButton)findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,8 +71,11 @@ public  class LoginActivity extends AppCompatActivity implements GoogleApiClient
 
         SharedPreferences sharedPref1 = this.getPreferences(Context.MODE_PRIVATE);
         String  Gkey = sharedPref1.getString("GloginKey","");
-        if(Gkey!="")
+        if(Gkey!="") {
+
             gotoProfile();
+        }
+
 
 
     }
@@ -77,9 +90,12 @@ public  class LoginActivity extends AppCompatActivity implements GoogleApiClient
     private void handleSignInResult(GoogleSignInResult result){
         if(result.isSuccess()){
             //Write to shared preferences
+            GoogleSignInAccount acct = result.getSignInAccount();
+            String TokenID = acct.getIdToken();
+
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("GloginKey", "123");
+            editor.putString("GloginKey", TokenID);
             editor.apply();
             //Read from shared preferences
 
