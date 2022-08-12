@@ -2,6 +2,8 @@ package com.example.networkdevicescanner;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
+
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -43,9 +45,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean insertContact (String ipaddress, String devicename) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name", ipaddress);
-        contentValues.put("phone", devicename);
-        db.insert("mdns", null, contentValues);
+        contentValues.put("ipaddress", ipaddress);
+        contentValues.put("devicename", devicename);
+        long l=db.insert("mdns", null, contentValues);
         return true;
     }
 
@@ -90,6 +92,22 @@ public class DBHelper extends SQLiteOpenHelper {
 
         while(res.isAfterLast() == false){
             //array_list.add(res.getString(res.getColumnIndex(CONTACTS_COLUMN_ipaddress)));
+            res.moveToNext();
+        }
+        return array_list;
+    }
+    @SuppressLint("Range")
+    public ArrayList<mDNSData> getnetworkDevices() {
+        ArrayList<mDNSData> array_list = new ArrayList<mDNSData>();
+
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from mdns", null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            mDNSData data=new mDNSData(res.getString(1),res.getString(2));
+            array_list.add(data);
             res.moveToNext();
         }
         return array_list;

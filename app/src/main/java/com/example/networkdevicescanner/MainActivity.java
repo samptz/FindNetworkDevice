@@ -20,14 +20,30 @@ public class MainActivity extends AppCompatActivity {
     nDNSAdapter adapter;
     RecyclerView recyclerView;
     ClickListiner listiner;
+    private DBHelper mydb ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mydb = new DBHelper(this);
         ArrayList<mDNSData> list = new ArrayList<>();
         //list = getData();
         list=scanSubNet("192.168.1.");
+        if(!list.isEmpty())
+        {
+            if(list.size()>0)
+            {
+                for(int i=0; i<list.size(); i++) {
+                    boolean bool=mydb.insertContact(list.get(i).IPAddress,list.get(i).DeviceName);
+                }
+
+            }
+
+        }
+        ArrayList<mDNSData> list1 = new ArrayList<>();
+        list1=mydb.getnetworkDevices();
+
+
        recyclerView
                 = (RecyclerView)findViewById(
                 R.id.recyclerView);
@@ -40,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         adapter= new nDNSAdapter(
-                list, getApplication(),listiner);
+                list1, getApplication(),listiner);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(MainActivity.this));
